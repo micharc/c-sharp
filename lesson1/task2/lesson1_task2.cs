@@ -1,20 +1,18 @@
-namespace GB
-{
+namespace GB {
 
     using System;
     using System.IO;
 
-    class homeTasks {
-        static void Main(string[] args)
-        {
+    class homeTasks1_4 {
+        private static void Main() {
 
-        /*
-            Задача 2: Напишите программу, которая на вход принимает два числа и выдаёт,
-            какое число большее, а какое меньшее.
-            a = 5; b = 7 -> max = 7
-            a = 2 b = 10 -> max = 10
-            a = -9 b = -3 -> max = -3
-        */
+/*
+    Задача 2: Напишите программу, которая на вход принимает два числа и выдаёт,
+    какое число большее, а какое меньшее.
+    a = 5; b = 7 -> max = 7
+    a = 2 b = 10 -> max = 10
+    a = -9 b = -3 -> max = -3
+*/
 
             int n1, n2;
 
