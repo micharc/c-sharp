@@ -18,14 +18,14 @@ namespace GB
 
             int n2, n3, max;
 
-            System.Console.Write("First number [n1]: ");
+            System.Console.Write("Enter first integer number [n1]: ");
             max = Convert.ToInt32(Console.ReadLine());
 
-            System.Console.Write("Second number [n2]: ");
+            System.Console.Write("Enter second integer number [n2]: ");
             n2 = Convert.ToInt32(Console.ReadLine());
             if (n2 > max) { max = n2; }
 
-            System.Console.Write("Third number [n3]: ");
+            System.Console.Write("Enter third integer number [n3]: ");
             n3 = Convert.ToInt32(Console.ReadLine());
             if (n3 > max) { max = n3; }
 

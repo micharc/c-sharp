@@ -16,10 +16,10 @@ namespace GB {
 
             int n1, n2;
 
-            System.Console.Write("First number [n1]: ");
+            System.Console.Write("Enter first integer number [n1]: ");
             n1 = Convert.ToInt32(Console.ReadLine());
 
-            System.Console.Write("Second number [n2]: ");
+            System.Console.Write("Enter second integer number [n2]: ");
             n2 = Convert.ToInt32(Console.ReadLine());
 
             if (n1 > n2) {
