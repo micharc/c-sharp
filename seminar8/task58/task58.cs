@@ -42,14 +42,14 @@ namespace GB {
                     for (int i_column1=0; i_column1<a.GetLength(1); i_column1++) {
                         temp += a[i_row1,i_column1] * b[i_column1,i_column2];
                         if ( debug ) {
-                            System.Console.Write($"a[{i_row1+1},{i_column1+1}] ({a[i_row1,i_column1]}) * b[{i_column1+1},{i_column2+1}] ({b[i_column1,i_column2]})");
+                            System.Console.Write($"a[{i_row1+1},{i_column1+1}] ({a[i_row1,i_column1],4}) * b[{i_column1+1},{i_column2+1}] ({b[i_column1,i_column2],4})");
                             if (i_column1 < (a.GetLength(1)-1) ) {
                                 System.Console.Write(" + ");
                             }
                         }
                     }
                     c[i_row1,i_column2] = temp;
-                    if ( debug ) { System.Console.WriteLine($" = {temp}"); }
+                    if ( debug ) { System.Console.WriteLine($" = {temp,4}"); }
                 }
             }
 
@@ -58,10 +58,10 @@ namespace GB {
         }
 
         private static void PrintIntArray (string message, int[,] arr) {
-            System.Console.WriteLine(message);
-            for (int i_c=0; i_c<arr.GetLength(0); i_c++) {
-                for (int i_r=0; i_r<arr.GetLength(1); i_r++) {
-                    System.Console.Write("{0} ",arr[i_c,i_r]);
+            System.Console.WriteLine(message + ". Size [{0} * {1}]", arr.GetLength(0), arr.GetLength(1));
+            for (int i_c = 0; i_c < arr.GetLength(0); i_c++) {
+                for (int i_r = 0; i_r < arr.GetLength(1); i_r++) {
+                    System.Console.Write("{0,4} ",arr[i_c,i_r]);
                 }
                 System.Console.WriteLine();
             }
@@ -72,9 +72,9 @@ namespace GB {
 
             const int MATRIX1_SIZE_ROWS = 3;
             const int MATRIX1_SIZE_COLUMNS = 2;
-            const int MATRIX2_SIZE_ROWS = 3;
+            const int MATRIX2_SIZE_ROWS = 2;
             const int MATRIX2_SIZE_COLUMNS = 3;
-            const int MIN_VALUE = 0;
+            const int MIN_VALUE = -10;
             const int MAX_VALUE = 10;
 
             int[,] a = new int[MATRIX1_SIZE_ROWS, MATRIX1_SIZE_COLUMNS];
@@ -103,8 +103,8 @@ namespace GB {
 //            b[0,0] = 5;  b[0,1] = -1; b[0,2] = 6;
 //            b[1,0] = -3; b[1,1] = 0; b[1,2] = 7;
 
-            PrintIntArray("Matrix A:", a);
-            PrintIntArray("Matrix B:", b);
+            PrintIntArray("Matrix A", a);
+            PrintIntArray("Matrix B", b);
 
             c = MultiplyMatrixes(a, b);
 
