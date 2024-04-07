@@ -1,16 +1,25 @@
 import json
 import codecs
 from datetime import datetime
-# import sys
+import os.path
+
+'''
+1) Multiline records are not supported
+2) Records are saved as UTF-16
+'''
 
 db_filename = 'notes.json'
-# print('sys.stdout encoding is "' + sys.stdout.encoding + '"')
+data = {}
+
 
 def list_all_notes():
-    print('id, subject')
-    for id in data:
-        print(f"{id}, {data[id]['subject']}")
-    input('Press Enter to continue...')
+    if data:
+        print('ID, SUBJECT')
+        for id in data:
+            print(f"{id}, {data[id]['subject']}")
+        input('Press Enter to continue...')
+    else:
+        input('List of notes is empty\nPress Enter to continue...')
 
 
 def get_current_date():
@@ -26,12 +35,11 @@ def add_new_note():
         'body': body
     }
     write_db()
-    read_db()
 
 
-def print_note(id):
+def print_note(id, press_enter):
     for i in data:
-        if (i == id):
+        if i == id:
             record = data[i]
             print(f"\n"
                   f"Note ID = {id}\n"
@@ -39,19 +47,45 @@ def print_note(id):
                   f"Subject: {record['subject']}\n\n"
                   f"{record['body']}\n"
                   )
-            input('Press Enter to continue...')
+            if press_enter:
+                input('Press Enter to continue...')
             return
     input(f'Record with ID={id} was not found\nPress Enter to continue...')
 
 
 def delete_note(id):
     for i in data:
-        if (i == id):
+        if i == id:
             data.pop(str(i))
-            input('Note was deleted. Press Enter to continue...')
+            input(f'Note with ID = {id} was deleted.\nPress Enter to continue...')
+            write_db()
             return
-    input(f'Record with ID={id} was not found\nPress Enter to continue...')
-    write_db()
+    input(f'Record with ID = {id} was not found\nPress Enter to continue...')
+
+
+def check_note_existence(id):
+    for i in data:
+        if i == id:
+            return true
+    return false
+
+
+def edit_note():
+    id = input(f'Enter record ID and press Enter: ')
+    for i in data:
+        if i == id:
+            print_note(id, False)
+            subject = str(input(f'Enter new subject for ID = {id}: '))
+            body = str(input(f'Enter new note body for ID = {id}: '))
+            data[str(id)] = {
+                'date': get_current_date(),
+                'subject': subject,
+                'body': body
+            }
+            write_db()
+            return
+    input(f'Record with ID = {id} was not found\nPress Enter to continue...')
+
 
 def gui():
     command = 'start'
@@ -61,6 +95,7 @@ def gui():
               '\ta - Add new note\n'
               '\tp - Print note by ID\n'
               '\td - Delete note by ID\n'
+              '\te - Edit note by ID\n'
               '\tq - Exit\n'
               )
         command = str(input('Enter command and press ENTER: '))
@@ -76,13 +111,17 @@ def gui():
                 print('Exiting...')
             case 'p':
                 id = input(f'Enter record ID and press Enter: ')
-                print_note(id)
+                print_note(id, True)
+            case 'e':
+                edit_note()
             case _:
                 print(f'Invalid command was entered - {command}.\n'
                       f'Please reenter command')
 
 
 def read_db():
+    if not os.path.isfile(db_filename):
+        return
     db = codecs.open(db_filename, 'r', encoding='utf-8-sig')
     global data
     data = json.load(db)
@@ -92,7 +131,7 @@ def read_db():
 def write_db():
     db = codecs.open(db_filename, 'w', encoding='utf-8-sig')
     global data
-    db.write(json.dumps(data, indent=4))
+    db.writelines(json.dumps(data, indent=4))
     db.close()
 
 
