@@ -29,14 +29,46 @@ class ToyShop {
     public String toString() {
         return ids.toString() + '\n' + values + '\n' + names;
     }
+
+    public Integer get() {
+        int totalValue = 0;
+        Integer[] tempIds = new Integer[ids.size()];
+        tempIds = (Integer)ids.toArray();
+        while (tempIds.peek() != null) {
+            Integer temp = tempIds.poll();
+            totalValue += values.get(temp);
+        }
+        int tempValue = 0;
+        tempIds = ids;
+        int randomValue = (int)(Math.random()*totalValue);
+        while (tempIds.peek() != null) {
+            Integer temp = tempIds.poll();
+            tempValue += values.get(temp);
+            if ( tempValue > randomValue ) {
+                return temp;
+            }
+        }
+        System.out.println("Element not found");
+        return -1;
+    }
 }
 
 public class Runner {
     public static void main(String[] args) {
         ToyShop toyShop = new ToyShop();
-        toyShop.addItem(1,2,"Test");
-        toyShop.addItem(2,5,"Test2");
-        toyShop.addItem(3,10,"Test3");
+        toyShop.addItem(1,25,"Пикачу");
+        toyShop.addItem(2,40,"Мяч");
+        toyShop.addItem(3,35,"Трактор");
         System.out.println(toyShop);
+        System.out.println(toyShop.get());
+        System.out.println(toyShop.get());
+        System.out.println(toyShop.get());
+        System.out.println(toyShop.get());
+        System.out.println(toyShop.get());
+        System.out.println(toyShop.get());
+        System.out.println(toyShop.get());
+        System.out.println(toyShop.get());
+        System.out.println(toyShop.get());
+        System.out.println(toyShop.get());
     }
 }
