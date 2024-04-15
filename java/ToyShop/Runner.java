@@ -1,5 +1,8 @@
 package ToyShop;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.PriorityQueue;
 
@@ -10,9 +13,11 @@ import java.util.PriorityQueue;
  */
 
 class ToyShop {
-    private final HashMap<Integer, String> names;
-    private final HashMap<Integer, Integer> values;
-    private final PriorityQueue<Integer> ids;
+    private final HashMap<String, String> names;
+    private final HashMap<String, Float> values;
+    private final PriorityQueue<String> ids;
+
+    Boolean debug = true;
 
     public ToyShop() {
         this.names = new HashMap<>();
@@ -20,55 +25,77 @@ class ToyShop {
         this.ids = new PriorityQueue<>();
     }
 
-    public void addItem (Integer id, Integer value, String name) {
+    public void put(String id, String value, String name) {
+        float tempValue;
+        try {
+            tempValue = Float.parseFloat(value);
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid number for 'Value' - " + value);
+            return;
+        }
         ids.add(id);
         names.put(id, name);
-        values.put(id, value);
+        values.put(id, tempValue);
     }
 
     public String toString() {
-        return ids.toString() + '\n' + values + '\n' + names;
+        String result = "";
+        for (String s : ids) {
+            result = result.concat(String.format("id = %s (value = %.1f, name = %s)\n", s, values.get(s), names.get(s)));
+        }
+        return result;
     }
 
-    public Integer get() {
-        int totalValue = 0;
-        Integer[] tempIds = new Integer[ids.size()];
-        tempIds = (Integer)ids.toArray();
-        while (tempIds.peek() != null) {
-            Integer temp = tempIds.poll();
-            totalValue += values.get(temp);
+    public String get() {
+        Float totalValue = (float) 0;
+        Object[] tempIds = ids.toArray();
+        for (Object o : tempIds) {
+            String tempId = (String) o;
+            totalValue += values.get(tempId);
         }
-        int tempValue = 0;
-        tempIds = ids;
-        int randomValue = (int)(Math.random()*totalValue);
-        while (tempIds.peek() != null) {
-            Integer temp = tempIds.poll();
-            tempValue += values.get(temp);
-            if ( tempValue > randomValue ) {
-                return temp;
+        Float tempValue = (float) 0;
+        tempIds = ids.toArray();
+        float randomValue = (float) Math.random() * totalValue;
+        for (Object id : tempIds) {
+            String tempId = (String) id;
+            tempValue += values.get(tempId);
+            if (tempValue > randomValue) {
+                if ( debug ) {
+                    System.out.printf("randomValue = %.1f, tempValue = %.1f, id = %s\n", randomValue, tempValue, tempId);
+                }
+                return tempId + "\n";
             }
         }
-        System.out.println("Element not found");
-        return -1;
+        System.out.println("Error! Element not found");
+        return "Error! Element not found";
     }
 }
 
 public class Runner {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        String fileName = "result.txt";
         ToyShop toyShop = new ToyShop();
-        toyShop.addItem(1,25,"Пикачу");
-        toyShop.addItem(2,40,"Мяч");
-        toyShop.addItem(3,35,"Трактор");
-        System.out.println(toyShop);
-        System.out.println(toyShop.get());
-        System.out.println(toyShop.get());
-        System.out.println(toyShop.get());
-        System.out.println(toyShop.get());
-        System.out.println(toyShop.get());
-        System.out.println(toyShop.get());
-        System.out.println(toyShop.get());
-        System.out.println(toyShop.get());
-        System.out.println(toyShop.get());
-        System.out.println(toyShop.get());
+        toyShop.put("1","20.0","Пикачу");
+        toyShop.put("30","10.0","Мяч");
+        toyShop.put("999","70.0","Трактор");
+
+        BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
+
+        String result = String.valueOf(toyShop);
+        System.out.println(result);
+
+        result = result.concat(toyShop.get());
+        result = result.concat(toyShop.get());
+        result = result.concat(toyShop.get());
+        result = result.concat(toyShop.get());
+        result = result.concat(toyShop.get());
+        result = result.concat(toyShop.get());
+        result = result.concat(toyShop.get());
+        result = result.concat(toyShop.get());
+        result = result.concat(toyShop.get());
+        result = result.concat(toyShop.get());
+
+        writer.write(result);
+        writer.close();
     }
 }
