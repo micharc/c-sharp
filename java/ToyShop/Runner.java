@@ -17,7 +17,7 @@ class ToyShop {
     private final HashMap<String, Float> values;
     private final PriorityQueue<String> ids;
 
-    Boolean debug = true;
+    Boolean DEBUG = false;
 
     public ToyShop() {
         this.names = new HashMap<>();
@@ -60,7 +60,7 @@ class ToyShop {
             String tempId = (String) id;
             tempValue += values.get(tempId);
             if (tempValue > randomValue) {
-                if ( debug ) {
+                if (DEBUG) {
                     System.out.printf("randomValue = %.1f, tempValue = %.1f, id = %s\n", randomValue, tempValue, tempId);
                 }
                 return tempId + "\n";
@@ -72,17 +72,20 @@ class ToyShop {
 }
 
 public class Runner {
+
+    static Boolean DEBUG = false;
+
     public static void main(String[] args) throws IOException {
         String fileName = "result.txt";
         ToyShop toyShop = new ToyShop();
-        toyShop.put("1","20.0","Пикачу");
+        toyShop.put("11","20.0","Пикачу");
         toyShop.put("30","10.0","Мяч");
-        toyShop.put("999","70.0","Трактор");
+        toyShop.put("99","70.0","Трактор");
 
         BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
 
         String result = String.valueOf(toyShop);
-        System.out.println(result);
+        if (DEBUG) { System.out.println(result); }
 
         result = result.concat(toyShop.get());
         result = result.concat(toyShop.get());
