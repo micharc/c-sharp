@@ -1,5 +1,9 @@
 package oop.lesson2;
 
+/**
+ * Чарков Михаил, номер группы мне неизвестен :)
+ */
+
 public class Main {
 
     public static void main(String[] args) {
