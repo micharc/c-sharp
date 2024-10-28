@@ -7,13 +7,15 @@ public class VendingMachineHotDrinks implements VendingMachine {
 
     private final List<HotDrink> productList;
     private int money;
+    public String address;
 
     /**
      * основной конструктор
      */
-    public VendingMachineHotDrinks() {
+    public VendingMachineHotDrinks(String name) {
         this.productList = initProduct();
         money = 0;
+        this.address = name;
         System.out.print(this);
     }
 
@@ -69,7 +71,11 @@ public class VendingMachineHotDrinks implements VendingMachine {
      */
     @Override
     public String toString() {
-        String result = String.format("\nОтчёт по вендингу с горячими напитками\nНакопленная сумма = %d руб.\nСписок напитков:\n", money);
+        String result = String.format("\nОтчёт по вендингу с горячими напитками\n" +
+                "Адрес установки: %s\n" +
+                "Накопленная сумма = %d руб.\n" +
+                "Список напитков:\n",
+                address, money);
         for (HotDrink product : productList) {
             result = result.concat(product.toString()).concat("\n");
         }
