@@ -1,0 +1,20 @@
+{
+  "book": [
+    {
+      "firstName": "Иван",
+      "lastName": "Петров"
+    },
+    {
+      "firstName": "Ирина",
+      "lastName": "Ульянова"
+    },
+    {
+      "firstName": "Марина",
+      "lastName": "Черных"
+    },
+    {
+      "firstName": "Филипп",
+      "lastName": "Сидоров"
+    }
+  ]
+}
